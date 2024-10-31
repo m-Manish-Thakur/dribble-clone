@@ -1,15 +1,10 @@
-"use client";
-
 import SearchBox from "@/components/Common/SearchBox";
-import Navbar from "@/components/Navbar";
 import { Badge } from "@/components/ui/badge";
 import React from "react";
 
 const Page = () => {
   return (
     <div className="bg-white min-h-[100vh]">
-      <Navbar />
-
       <div className="flex items-center justify-center flex-col gap-4 pt-16">
         <h1 className="text-[65px] font-medium leading-[80px] text-foreground/90 text-center heading">
           Discover the world&apos;s <br /> top designers

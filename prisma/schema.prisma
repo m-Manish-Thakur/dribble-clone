@@ -7,13 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  posts     Post[]
-  createdAt DateTime @default(now())
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  name           String?
+  password       String?   // Optional for users with Google
+  googleId       String?   @unique // Store Google ID for Google users
+  emailVerified  Boolean?
+  image          String?
+  posts          Post[] 
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
 }
+
 
 model Post {
   id        Int      @id @default(autoincrement())
