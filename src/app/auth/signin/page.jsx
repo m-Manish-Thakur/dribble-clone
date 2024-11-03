@@ -59,17 +59,17 @@ const Page = () => {
   };
 
   return (
-    <div className="flex items-center flex-1 pl-[150px]">
-      <div className="w-[450px]">
-        <h2 className="text-2xl font-bold text-foreground/90">Sign in to Dribbble</h2>
+    <div className="flex items-center md:justify-start justify-center flex-1 pl-0 md:pl-[150px]">
+      <div className="w-[90%] md:w-[450px]">
+        <h2 className="text-2xl font-bold  text-foreground/90">Sign in to Dribbble</h2>
         <Button className="rounded-full h-14 w-[100%] mt-8" variant="outline" onClick={handleGoogleSignIn}>
           <Image src="/images/google.svg" height={18} width={18} alt="google" className="mr-2" /> Sign in with Google
         </Button>
 
         <div className="flex gap-3 items-center mt-6 justify-center">
-          <div className="h-[1px] w-[130px] bg-muted"></div>
+          <div className="h-[1px] w-[50px] md:w-[130px] bg-muted"></div>
           <p className="text-muted-foreground">or sign in with email</p>
-          <div className="h-[1px] w-[130px] bg-muted"></div>
+          <div className="h-[1px] w-[50px] md:w-[130px] bg-muted"></div>
         </div>
 
         <div className="mt-6">

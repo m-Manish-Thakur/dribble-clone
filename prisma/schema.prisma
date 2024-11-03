@@ -7,20 +7,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id             Int       @id @default(autoincrement())
-  email          String    @unique
-  name           String?
-  password       String?   // Optional for users with Google
-  googleId       String?   @unique // Store Google ID for Google users
-  emailVerified  Boolean?
-  image          String?
-  posts          Post[] 
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
+  id            Int       @id @default(autoincrement())
+  email         String    @unique
+  name          String?
+  username      String? 
+  createdAt     DateTime  @default(now())
+  emailVerified Boolean?
+  image         String?
+  password      String?
+  updatedAt     DateTime? @updatedAt
+  googleId      String?   @unique
+  posts         Post[]
+  profile       Profile?
+  sessions      Session[]
+  followers     Follower[]  @relation("UserFollowers")
+  following     Following[] @relation("UserFollowing")
 }
 
+model Follower {
+  id         Int    @id @default(autoincrement())
+  userId     Int
+  followerId Int
+
+  user       User   @relation("UserFollowers", fields: [userId], references: [id])
+
+  @@unique([userId, followerId]) // Prevent duplicate follow entries
+}
+
+model Following {
+  id            Int    @id @default(autoincrement())
+  userId        Int
+  followingId   Int
+
+  user          User   @relation("UserFollowing", fields: [userId], references: [id])
+
+  @@unique([userId, followingId]) // Prevent duplicate following entries
+}
+
+model Profile {
+  id          Int           @id @default(autoincrement())
+  userId      Int           @unique
+  bio         String?
+  location    String?
+  websiteUrl  String?
+  twitter     String?
+  linkedIn    String?
+  github      String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  behance     String?
+  facebook    String?
+  figma       String?
+  instagram   String?
+  medium      String?
+  education   Education[]
+  user        User          @relation(fields: [userId], references: [id])
+  workHistory WorkHistory[]
+}
+
+model WorkHistory {
+  id        Int     @id @default(autoincrement())
+  profileId Int
+  position  String
+  company   String
+  startYear String
+  endYear   String
+  profile   Profile @relation(fields: [profileId], references: [id])
+}
+
+model Education {
+  id         Int     @id @default(autoincrement())
+  profileId  Int
+  degree     String
+  university String
+  year       String
+  profile    Profile @relation(fields: [profileId], references: [id])
+}
+
+model Session {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  ip         String
+  device     String
+  platform   String
+  firstLogin DateTime
+  lastLogin  DateTime
+  user       User     @relation(fields: [userId], references: [id])
+}
 
 model Post {
   id        Int      @id @default(autoincrement())
@@ -28,6 +102,6 @@ model Post {
   content   String?
   published Boolean  @default(false)
   authorId  Int
-  author    User     @relation(fields: [authorId], references: [id])
   createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
 }

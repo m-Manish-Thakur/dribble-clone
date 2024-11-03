@@ -83,3 +83,7 @@
 .heading {
   font-family: georgia;
 }
+
+.menu-overlay {
+  transition: transform 0.3s ease-in-out;
+}

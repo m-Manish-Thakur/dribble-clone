@@ -6,8 +6,11 @@ export async function GET(req) {
     const data = await prisma.user.findMany({
       include: {
         posts: true,
+        sessions: true,
+        profile: true,
       },
     });
+
     console.log(data);
 
     return NextResponse.json({ data }, { status: 200 });

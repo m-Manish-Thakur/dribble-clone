@@ -28,11 +28,9 @@ const Page = () => {
   // Google sign-in handler
   const handleGoogleSignUp = async () => {
     try {
-      toast.success("Called");
       const result = await signIn("google", { callbackUrl: "/" });
       if (!result) throw new Error("Google sign-in failed.");
     } catch (error) {
-      toast.error("Google sign-in failed. Please try again.");
       console.error("Error during Google sign-in:", error);
     }
   };
@@ -68,8 +66,8 @@ const Page = () => {
   return (
     <>
       {!showEmailForm && (
-        <div className="flex items-center flex-1 pl-[150px]">
-          <div className="w-[450px]">
+        <div className="flex items-center md:justify-start justify-center flex-1 pl-0 md:pl-[150px]">
+          <div className="w-[90%] md:w-[450px]">
             <h2 className="text-2xl font-bold text-foreground/90">Sign up to Dribbble</h2>
 
             <Button className="rounded-full h-14 w-[100%] mt-8 font-medium text-[15px]" onClick={handleGoogleSignUp}>
@@ -109,17 +107,16 @@ const Page = () => {
 
       {/* ---------------  Sign up with Email  ----------------- */}
       {showEmailForm && (
-        <div className="flex items-center flex-1 pl-[150px] relative">
+        <div className="flex items-center md:justify-start justify-center flex-1 pl-0 md:pl-[150px] relative">
           <Button
             size="icon"
             variant="outline"
-            className="rounded-full absolute left-[50px] top-[60px]"
+            className="rounded-full absolute left-[20px] md:left-[50px] top-[20px] md:top-[60px]"
             onClick={() => setShowEmailForm(false)}
           >
             <ChevronLeft size={24} />
           </Button>
-
-          <div className="w-[450px]">
+          <div className="w-[90%] md:w-[450px]">
             <h2 className="text-2xl font-bold text-foreground/90">Sign up with Email</h2>
 
             <Label htmlFor="name" className="mt-8 block">

@@ -13,7 +13,7 @@ export default function AuthLayout({ children }) {
     <html lang="en">
       <body className={GeistSans.className}>
         <div className="flex h-[100vh]">
-          <div className="w-[400px]">
+          <div className="w-0 md:w-[400px] hidden md:block">
             <video src="/images/signup.mp4" autoPlay={true} className="h-full aspect-video object-cover" muted loop />
           </div>
           <Provider>{children}</Provider>

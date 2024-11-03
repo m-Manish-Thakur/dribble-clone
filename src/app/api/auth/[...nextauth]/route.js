@@ -68,8 +68,10 @@ export const authOptions = {
       if (account.provider === "google") {
         const email = profile.email;
         const googleId = profile.sub; // Google user ID
-        const username = profile.name;
+        const name = profile.name;
         const image = profile.picture;
+
+        const username = email.split("@")[0];
 
         // Find existing user by email
         let existingUser = await prisma.user.findUnique({
@@ -81,39 +83,50 @@ export const authOptions = {
           if (!existingUser.googleId) {
             await prisma.user.update({
               where: { email },
-              data: { googleId },
+              data: { googleId, emailVerified: true },
             });
           }
         } else {
-          // If no user exists, create new user with Google profile data
-          await prisma.user.create({
+          // If no user exists, create a new user with Google profile data
+          existingUser = await prisma.user.create({
             data: {
               email,
-              name: username,
+              name,
+              username,
               googleId,
               image,
               emailVerified: true, // Automatically verify email from Google
             },
           });
         }
+
+        // Return the user for the jwt callback
+        user.id = existingUser?.id;
+        user.image = existingUser?.image;
+        user.name = existingUser?.name;
       }
       return true;
     },
 
     async jwt({ token, user }) {
       if (user) {
+        // Ensure token contains Prisma user ID
         token.id = user.id;
         token.image = user.image;
+        token.name = user.name;
       }
+
       return token;
     },
 
     async session({ session, token }) {
       session.user.id = token.id;
+      session.user.name = token.name;
       session.user.image = token.image;
       return session;
     },
   },
+
   debug: process.env.NODE_ENV === "development",
 };
 
