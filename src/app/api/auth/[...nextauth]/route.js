@@ -80,12 +80,10 @@ export const authOptions = {
 
         if (existingUser) {
           // If user exists, ensure googleId matches
-          if (!existingUser.googleId) {
-            await prisma.user.update({
-              where: { email },
-              data: { googleId, emailVerified: true },
-            });
-          }
+          await prisma.user.update({
+            where: { email },
+            data: { googleId, emailVerified: true },
+          });
         } else {
           // If no user exists, create a new user with Google profile data
           existingUser = await prisma.user.create({
